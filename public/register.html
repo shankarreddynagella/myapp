@@ -47,6 +47,7 @@
     <script src="js/main.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+   <script src="./js/config.js"></script>
     <script>
     $(document).ready(function(){
             //CONTACT FORM: ajax request
@@ -76,7 +77,7 @@
  if($("#name").val()!="" && $("#email").val()!=""){
     $.ajax({
         type: "POST",
-        url: 'http://localhost:3000/api/users',
+        url: `${api}/users`,
         data: form.serialize(),
             success: function(data)
             {
