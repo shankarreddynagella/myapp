@@ -29,8 +29,10 @@ class Users{
         try{
            // console.log(req.body);
             let tokens = await db.tokens.findOne({});
-            console.log(tokens.token)
-            if(tokens.token == "simpleTest"){
+            //console.log(tokens.token)
+            let sessi = req.session;
+            console.log(sessi.cookie.name);
+            if(tokens.token == sessi.cookie.name){
             let usersData = await db.users.findAll()
             if(usersData.length>0){
             return res.json({
@@ -40,6 +42,7 @@ class Users{
             })
         }else{
             return res.json({
+
                 success:true,
                 data:usersData,
                 message:`No data found`
