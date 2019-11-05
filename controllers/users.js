@@ -63,5 +63,66 @@ class Users{
             })
         }
     }
+    async getUsersById(req,res){
+        try{
+           // console.log(req.body);
+            let tokens = await db.tokens.findOne({});
+            //console.log(tokens.token)
+            let sessi = req.session;
+            console.log(sessi.cookie.name);
+            if(tokens.token == sessi.cookie.name){
+            let usersData = await db.users.findOne({id:req.params.userId})
+            if(usersData.length>0){
+            return res.json({
+                success:true,
+                data:usersData,
+                message:`User successfully created`
+            })
+        }else{
+            return res.json({
+
+                success:true,
+                data:usersData,
+                message:`User found`
+            })
+        }
+        }else{
+            return res.json({
+                success:false,
+                data:[],
+                message:`invalid access token`
+            }) 
+        }
+        }catch(error){
+            return res.json({
+                success:false,
+                message:`api error. something wrong`,
+                error:error
+            })
+        }
+    }
+    async updateUser(req,res){
+        try{
+            console.log(req.body);
+            if(req.body.password!=""){
+            var hash = bcrypt.hashSync(req.body.password, saltRounds);
+            req.body.password = hash;
+            }
+            let usersData = await db.users.update(req.body,{
+            where:{ id: req.params.userId}
+            })
+            return res.json({
+                success:true,
+                data:usersData,
+                message:`User successfully created`
+            })
+        }catch(error){
+            return res.json({
+                success:false,
+                message:`api error. something wrong`,
+                error:error
+            })
+        }
+    }
 }
 module.exports = Users;
