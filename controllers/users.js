@@ -126,12 +126,7 @@ class Users{
     }
     async deleteUser(req,res){
         try{
-            console.log(req.body);
-            if(req.body.password!=""){
-            var hash = bcrypt.hashSync(req.body.password, saltRounds);
-            req.body.password = hash;
-            }
-            let usersData = await db.users.destroy({
+            await db.users.destroy({
             where:{ id: req.params.userId}
             })
             return res.json({
