@@ -38,7 +38,7 @@ class Users{
             return res.json({
                 success:true,
                 data:usersData,
-                message:`User successfully created`
+                message:`Data found successfully`
             })
         }else{
             return res.json({
@@ -76,7 +76,7 @@ class Users{
             return res.json({
                 success:true,
                 data:usersData,
-                message:`User successfully created`
+                message:`Data found successfully`
             })
         }else{
             return res.json({
@@ -114,7 +114,30 @@ class Users{
             return res.json({
                 success:true,
                 data:usersData,
-                message:`User successfully created`
+                message:`User successfully updated`
+            })
+        }catch(error){
+            return res.json({
+                success:false,
+                message:`api error. something wrong`,
+                error:error
+            })
+        }
+    }
+    async deleteUser(req,res){
+        try{
+            console.log(req.body);
+            if(req.body.password!=""){
+            var hash = bcrypt.hashSync(req.body.password, saltRounds);
+            req.body.password = hash;
+            }
+            let usersData = await db.users.destroy({
+            where:{ id: req.params.userId}
+            })
+            return res.json({
+                success:true,
+               // data:usersData,
+                message:`User successfully deleted`
             })
         }catch(error){
             return res.json({
